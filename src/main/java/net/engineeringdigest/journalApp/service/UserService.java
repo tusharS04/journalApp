@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class UserService {
@@ -19,9 +18,13 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public void saveEntry(User user) {
+    public void saveNewUser(User user) {
         user.setPassword(PASSWORD_ENCODER.encode(user.getPassword()));
         user.setRoles(Arrays.asList("USER"));
+        userRepository.save(user);
+    }
+
+    public void saveUser(User user) {
         userRepository.save(user);
     }
 

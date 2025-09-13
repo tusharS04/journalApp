@@ -3,7 +3,6 @@ package net.engineeringdigest.journalApp.service;
 import net.engineeringdigest.journalApp.entity.JournalEntry;
 import net.engineeringdigest.journalApp.entity.User;
 import net.engineeringdigest.journalApp.repository.JournalEntryRepository;
-import net.engineeringdigest.journalApp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
@@ -33,7 +32,7 @@ public class JournalEntryService {
             //add journal entry against user then save user in db with journal
             User user = userService.findByUserName(userName);
             user.getJournalEntries().add(journalEntry);
-            userService.saveEntry(user);
+            userService.saveUser(user);
         } catch (Exception e) {
             System.out.println(e);
             throw new RuntimeException("An error occurred while saving entry", e);
@@ -54,11 +53,12 @@ public class JournalEntryService {
         return journalEntryRepository.findById(id);
     }
 
-    public String deleteById(String id, String userName) {
-        User user = userService.findByUserName(userName);
-        List<JournalEntry> journalEntries = user.getJournalEntries();
+    @Transactional
+    public boolean deleteById(String id, String userName) {
+        /*User user = userService.findByUserName(userName);
+       List<JournalEntry> journalEntries = user.getJournalEntries();
         //this gives ConcurrentModificationException
-        /*for (JournalEntry journalEntry : journalEntries) {
+        for (JournalEntry journalEntry : journalEntries) {
             if (id.equals(journalEntry.getId())) {
                 journalEntries.remove(journalEntry);
             }
@@ -71,10 +71,19 @@ public class JournalEntryService {
                 iterator.remove();
             }
         }*/
-        //simple replace the above thing with lambda method
-        user.getJournalEntries().removeIf(x -> x.getId().equals(id));
-        userService.saveEntry(user);
-        journalEntryRepository.deleteById(id);
-        return null;
+        boolean isRemoved = false;
+        try {
+            User user = userService.findByUserName(userName);
+            //simple replace the above thing with lambda method
+            isRemoved = user.getJournalEntries().removeIf(x -> x.getId().equals(id));
+            if(isRemoved) {
+                userService.saveUser(user);
+                journalEntryRepository.deleteById(id);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+            throw new RuntimeException("An error occured while deleting the entry",e);
+        }
+        return isRemoved;
     }
 }
