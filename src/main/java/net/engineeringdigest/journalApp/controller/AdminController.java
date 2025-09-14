@@ -10,21 +10,27 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/public")
-public class PublicController {
+@RequestMapping("/admin")
+public class AdminController {
 
     @Autowired
     private UserService userService;
 
-    @GetMapping("/health-check")
-    public String healthCheck() {
-        return "Server health good";
+    //Get All User
+    @GetMapping("get-all-user")
+    public ResponseEntity<?> getAll() {
+        //return journalEntryService.getAll();
+        List<User> userEntries = userService.getAll();
+        if(userEntries != null && !userEntries.isEmpty()) {
+            return new ResponseEntity<>(userEntries, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping("/create-user")
-    public ResponseEntity<?> createUser(@RequestBody User user) {
+    @PostMapping("create-admin")
+    public ResponseEntity<?> createAdmin(@RequestBody User user) {
         try {
-            userService.saveNewUser(user);
+            userService.createAdmin(user);
             return new ResponseEntity<>(user, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
