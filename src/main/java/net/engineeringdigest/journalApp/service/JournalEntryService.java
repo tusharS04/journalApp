@@ -18,6 +18,7 @@ import java.util.Optional;
 
 @Component
 @Configuration
+@Slf4j
 public class JournalEntryService {
 
     @Autowired
@@ -36,8 +37,9 @@ public class JournalEntryService {
             User user = userService.findByUserName(userName);
             user.getJournalEntries().add(journalEntry);
             userService.saveUser(user);
+            log.info("User updated : {}", user.getUserName());
         } catch (Exception e)       {
-            System.out.println(e);
+            log.error("An error occurred while saving entry", e);
             throw new RuntimeException("An error occurred while saving entry", e);
         }
     }
@@ -84,7 +86,7 @@ public class JournalEntryService {
                 journalEntryRepository.deleteById(id);
             }
         } catch (Exception e) {
-            System.out.println(e);
+            log.error("An error occured while deleting the entry",e);
             throw new RuntimeException("An error occured while deleting the entry",e);
         }
         return isRemoved;

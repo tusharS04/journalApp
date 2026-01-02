@@ -1,5 +1,6 @@
 package net.engineeringdigest.journalApp.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import net.engineeringdigest.journalApp.entity.User;
 import net.engineeringdigest.journalApp.repository.UserRepository;
 import net.engineeringdigest.journalApp.service.JournalEntryService;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
+@Slf4j
 public class UserController {
 
     @Autowired
@@ -41,7 +43,7 @@ public class UserController {
             userService.saveNewUser(userInDB);
             //return new ResponseEntity<>(userInDB, HttpStatus.OK);
         //}
-        System.out.println("User updated succsessfully");
+        log.info("User updated successfully : {}", userName);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
@@ -51,6 +53,7 @@ public class UserController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
         userRepository.deleteByUserName(userName);
+        log.info("user deleted successfully : {}", userName);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

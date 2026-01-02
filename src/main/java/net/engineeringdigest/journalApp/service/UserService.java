@@ -3,6 +3,8 @@ package net.engineeringdigest.journalApp.service;
 import lombok.extern.slf4j.Slf4j;
 import net.engineeringdigest.journalApp.entity.User;
 import net.engineeringdigest.journalApp.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,6 +17,8 @@ import java.util.List;
 @Slf4j
 public class UserService {
 
+    //private static final Logger logger = LoggerFactory.getLogger(UserService.class); //instead of this use @Slf4j
+
     private static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
 
     @Autowired
@@ -25,17 +29,26 @@ public class UserService {
             user.setPassword(PASSWORD_ENCODER.encode(user.getPassword()));
             user.setRoles(Arrays.asList("USER"));
             userRepository.save(user);
+            log.info("New user saved : {}",user.getUserName());
             return true;
         } catch (Exception e) {
             log.error("Error occured for user : {}", user.getUserName(), e);
+            //logger.error("Error occured for user : {}", user.getUserName(), e);
             throw new RuntimeException(e);
         }
     }
 
     public void createAdmin(User user) {
-        user.setPassword(PASSWORD_ENCODER.encode(user.getPassword()));
-        user.setRoles(Arrays.asList("USER","ADMIN"));
-        userRepository.save(user);
+        try {
+            user.setPassword(PASSWORD_ENCODER.encode(user.getPassword()));
+            user.setRoles(Arrays.asList("USER","ADMIN"));
+            userRepository.save(user);
+            log.info("New Admin saved : {}",user.getUserName());
+        } catch (Exception e) {
+            log.error("Error occured for user : {}", user.getUserName(), e);
+            throw new RuntimeException(e);
+        }
+
     }
 
     public void saveUser(User user) {

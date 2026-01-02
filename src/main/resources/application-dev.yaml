@@ -8,3 +8,15 @@ server:
   port: 8080
   servlet:
     context-path: /journal
+
+#At root level
+#logging:
+#  level:
+#    root: ERROR / OFF
+
+logging:
+  level:
+    net:
+      engineeringdigest:
+        journalApp: DEBUG
+

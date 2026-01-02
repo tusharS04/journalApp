@@ -1,5 +1,6 @@
 package net.engineeringdigest.journalApp.service;
 
+import lombok.extern.slf4j.Slf4j;
 import net.engineeringdigest.journalApp.entity.User;
 import net.engineeringdigest.journalApp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public class UserDetailServiceImpl implements UserDetailsService {
 
     @Autowired
@@ -25,6 +27,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
                     .build();
             return userDetails;
         }
+        log.error("user not foung with username: " + username);
         throw new UsernameNotFoundException("user not foung with username: " + username);
     }
 }

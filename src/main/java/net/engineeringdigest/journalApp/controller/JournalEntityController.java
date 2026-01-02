@@ -1,5 +1,6 @@
 package net.engineeringdigest.journalApp.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import net.engineeringdigest.journalApp.entity.JournalEntry;
 import net.engineeringdigest.journalApp.entity.User;
 import net.engineeringdigest.journalApp.service.JournalEntryService;
@@ -15,6 +16,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/journal")
+@Slf4j
 public class JournalEntityController {
 
     @Autowired
@@ -31,8 +33,10 @@ public class JournalEntityController {
         User user = userService.findByUserName(userName);
         List<JournalEntry> journalEntries = user.getJournalEntries();
         if(journalEntries != null && !journalEntries.isEmpty()) {
+            log.info("{}, journal entries found", journalEntries.size());
             return new ResponseEntity<>(journalEntries, HttpStatus.OK);
         }
+        log.info("No journal entries found for the user : {}", user.getUserName());
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
@@ -42,8 +46,10 @@ public class JournalEntityController {
         String userName = authentication.getName();
         try {
             journalEntryService.saveEntry(journalEntry, userName);
+            log.info("Journal entry created by id: {}" , journalEntry.getId());
             return new ResponseEntity<>(journalEntry, HttpStatus.CREATED);
         } catch (Exception e) {
+            log.error("Exception occurred "+ e);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -56,9 +62,11 @@ public class JournalEntityController {
         List<JournalEntry> entries = user.getJournalEntries();
         for(JournalEntry journal : entries) {
             if(journal.getId().equals(myId)) {
+                log.info("journal found");
                 return new ResponseEntity<>(journal, HttpStatus.OK);
             }
         }
+        log.info("no journal found");
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
