@@ -27,6 +27,7 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- only include in testing environment not in production -->
 		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

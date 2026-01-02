@@ -1,8 +1,11 @@
 package net.engineeringdigest.journalApp.service;
 
+//import com.sun.org.slf4j.internal.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import net.engineeringdigest.journalApp.entity.JournalEntry;
 import net.engineeringdigest.journalApp.entity.User;
 import net.engineeringdigest.journalApp.repository.JournalEntryRepository;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
@@ -33,7 +36,7 @@ public class JournalEntryService {
             User user = userService.findByUserName(userName);
             user.getJournalEntries().add(journalEntry);
             userService.saveUser(user);
-        } catch (Exception e) {
+        } catch (Exception e)       {
             System.out.println(e);
             throw new RuntimeException("An error occurred while saving entry", e);
         }

@@ -1,5 +1,6 @@
 package net.engineeringdigest.journalApp.service;
 
+import lombok.extern.slf4j.Slf4j;
 import net.engineeringdigest.journalApp.entity.User;
 import net.engineeringdigest.journalApp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Component
+@Slf4j
 public class UserService {
 
     private static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
@@ -18,10 +20,16 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public void saveNewUser(User user) {
-        user.setPassword(PASSWORD_ENCODER.encode(user.getPassword()));
-        user.setRoles(Arrays.asList("USER"));
-        userRepository.save(user);
+    public boolean saveNewUser(User user) {
+        try {
+            user.setPassword(PASSWORD_ENCODER.encode(user.getPassword()));
+            user.setRoles(Arrays.asList("USER"));
+            userRepository.save(user);
+            return true;
+        } catch (Exception e) {
+            log.error("Error occured for user : {}", user.getUserName(), e);
+            throw new RuntimeException(e);
+        }
     }
 
     public void createAdmin(User user) {
