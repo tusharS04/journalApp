@@ -1,3 +1,5 @@
+#How to use profiles in spring boot
+#**Spring Profiles** are a way to separate configuration for different environments
 spring:
   profiles:
     active: dev
