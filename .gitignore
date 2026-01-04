@@ -34,3 +34,4 @@ build/
 ### VS Code ###
 .vscode/
 start-mongodb-replica.bat
+sonarqube-details.txt
