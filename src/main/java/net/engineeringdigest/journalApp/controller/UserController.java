@@ -74,4 +74,16 @@ public class UserController {
         }
         return new ResponseEntity<>(greetings, HttpStatus.OK);
     }
+
+    @GetMapping("/bulk")
+    public ResponseEntity<?> greetingByPost() throws Exception {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
+        String weatherResponse = weatherService.getBulkWeather();
+        String greetings = "";
+        if(weatherResponse != null) {
+            greetings = "Hi " + userName + " ,The post response from weather API looks like this : " + weatherResponse;
+        }
+        return new ResponseEntity<>(greetings, HttpStatus.OK);
+    }
 }
