@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.engineeringdigest.journalApp.api.reponse.WeatherResponse;
 import org.json.JSONString;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -16,7 +17,8 @@ import org.springframework.web.client.RestTemplate;
 @Slf4j
 public class WeatherService {
 
-    private static final String API_KEY = "23cb378a0dcc458aa8a165327260301";
+    @Value("${weather.api.key}")
+    private String API_KEY;
     private static final String API = "https://api.weatherapi.com/v1/current.json?key=API_KEY&q=CITY&aqi=no";
     private static final String POST_API = "http://api.weatherapi.com/v1/current.json?key=API_KEY&q=bulk";
 

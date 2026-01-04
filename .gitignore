@@ -35,3 +35,4 @@ build/
 .vscode/
 start-mongodb-replica.bat
 sonarqube-details.txt
+src/main/resources/application.yaml
