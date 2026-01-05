@@ -1,6 +1,7 @@
 package net.engineeringdigest.journalApp.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import net.engineeringdigest.journalApp.cache.AppCache;
 import net.engineeringdigest.journalApp.entity.User;
 import net.engineeringdigest.journalApp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,9 @@ public class AdminController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private AppCache appCache;
 
     //Get All User
     @GetMapping("get-all-user")
@@ -41,5 +45,10 @@ public class AdminController {
             log.error("Error while creating admin user : {}", user.getUserName());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @GetMapping("clear-app-cache")
+    public void clearCache() {
+        appCache.init();
     }
 }
