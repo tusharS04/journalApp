@@ -3,6 +3,8 @@ package net.egnineeringdigest.journalApp.service;
 import net.engineeringdigest.journalApp.JournalApplication;
 import net.engineeringdigest.journalApp.entity.User;
 import net.engineeringdigest.journalApp.repository.UserRepository;
+import net.engineeringdigest.journalApp.repository.UserRepositoryImpl;
+import net.engineeringdigest.journalApp.service.UserDetailServiceImpl;
 import net.engineeringdigest.journalApp.service.UserService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,6 +27,9 @@ public class UserServiceTests {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserRepositoryImpl userRepositoryImpl;
 
     //@BeforeEach // run something before each test case
     //@BeforeAll //run something before all test case run
@@ -65,5 +70,10 @@ public class UserServiceTests {
     })
     public void testAdd(int a, int b, int expected) {
         assertEquals(expected, a+b);
+    }
+
+    @Test
+    void getUserForSA() {
+        userRepositoryImpl.getUserForSA();
     }
 }
