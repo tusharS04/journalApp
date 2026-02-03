@@ -4,4 +4,18 @@ spring:
   profiles:
     active: dev
 
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: tusharpsomvanshi@gmail.com
+    password: ukue trln wucw vzra
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+
+#ukue trln wucw vzra
 weather.api.key: 23cb378a0dcc458aa8a165327260301
