@@ -15,6 +15,9 @@ spring:
           auth: true
           starttls:
             enable: true
+#🔹 host & port → SMTP server details
+#🔹 username & password → sender credentials
+#🔹 starttls → enables secure email transmission
 
 
 #ukue trln wucw vzra
