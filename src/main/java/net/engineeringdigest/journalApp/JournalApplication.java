@@ -6,12 +6,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.MongoDatabaseFactory;
 import org.springframework.data.mongodb.MongoTransactionManager;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication //apply to only the main class of spring boot application
-@EnableTransactionManagement
+@EnableTransactionManagement //
+@EnableScheduling //Tell spring boot application to scan for schedling jobs (cron etc)
 public class JournalApplication {
 
     //main method - entry point of the application

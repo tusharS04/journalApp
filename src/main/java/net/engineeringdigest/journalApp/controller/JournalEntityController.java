@@ -3,6 +3,7 @@ package net.engineeringdigest.journalApp.controller;
 import lombok.extern.slf4j.Slf4j;
 import net.engineeringdigest.journalApp.entity.JournalEntry;
 import net.engineeringdigest.journalApp.entity.User;
+import net.engineeringdigest.journalApp.entity.enums.Sentiment;
 import net.engineeringdigest.journalApp.service.JournalEntryService;
 import net.engineeringdigest.journalApp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,6 +96,10 @@ public class JournalEntityController {
                 String content = journalEntry.getContent();
                 if(content != null && !content.equals("")) {
                     oldJournalEntry.setContent(content);
+                }
+                Sentiment sentiment = journalEntry.getSentiment();
+                if(sentiment != null && !sentiment.equals("")) {
+                    oldJournalEntry.setSentiment(sentiment);
                 }
                 journalEntryService.saveEntry(oldJournalEntry);
                 return new ResponseEntity<>(oldJournalEntry, HttpStatus.OK);
