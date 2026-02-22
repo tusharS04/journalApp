@@ -30,7 +30,8 @@ public class UserScheduler {
     @Autowired
     private AppCache appCache;
 
-    @Scheduled(cron = "0 * * ? * *")
+    //https://crontab.cronhub.io/
+    @Scheduled(cron = "0 * * ? * *") //every minute
     public void fetchUsersAndSendSAMail() {
         List<User> userList = userRepository.getUserForSA();
         for(User user : userList) {

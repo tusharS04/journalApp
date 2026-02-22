@@ -30,14 +30,27 @@ public class WeatherService {
     @Autowired
     private RestTemplate restTemplate;
 
+    @Autowired
+    private RedisService redisService;
+
     public WeatherResponse getWeather(String city) throws Exception {
         try {
-            String weatherApi = AppCache.appCache.get(WEATHER_API.toString());
-            String finalApi = weatherApi.replace(PlaceHolders.API_KEY, API_KEY).replace(PlaceHolders.CITY, city);
-            //Deserializing WeatherResponse -> converting JSON response to corresponding Java Object
-            ResponseEntity<WeatherResponse> weatherResponse = restTemplate.exchange(finalApi, HttpMethod.GET, null, WeatherResponse.class);
-            log.info("Weather API Status code: {}", weatherResponse.getStatusCode());
-            return weatherResponse.getBody();
+            //store response template to redis cache , to avoid extra call/paid api calls frequently
+            WeatherResponse weatherResponse = redisService.get("weather_of_" + city, WeatherResponse.class);
+            if(weatherResponse != null) {
+                return weatherResponse;
+            } else {
+                String weatherApi = AppCache.appCache.get(WEATHER_API.toString());
+                String finalApi = weatherApi.replace(PlaceHolders.API_KEY, API_KEY).replace(PlaceHolders.CITY, city);
+                //Deserializing WeatherResponse -> converting JSON response to corresponding Java Object
+                ResponseEntity<WeatherResponse> response = restTemplate.exchange(finalApi, HttpMethod.GET, null, WeatherResponse.class);
+                log.info("Weather API Status code: {}", response.getStatusCode());
+                WeatherResponse body = response.getBody();
+                if(body != null) {
+                    redisService.set("weather_of_"+city, body, 600l);
+                }
+                return body;
+            }
         } catch (Exception e) {
             log.error("Exception :", e);
             throw new Exception(e);

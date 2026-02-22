@@ -4,6 +4,10 @@ spring:
   profiles:
     active: dev
 
+  #🔹 host & port → SMTP server details
+  #🔹 username & password → sender credentials
+  #🔹 starttls → enables secure email transmission
+
   mail:
     host: smtp.gmail.com
     port: 587
@@ -15,10 +19,11 @@ spring:
           auth: true
           starttls:
             enable: true
-#🔹 host & port → SMTP server details
-#🔹 username & password → sender credentials
-#🔹 starttls → enables secure email transmission
 
+  # 🔹 Redis config:
+  redis:
+    host: localhost
+    port: 6379
 
 #ukue trln wucw vzra
 weather.api.key: 23cb378a0dcc458aa8a165327260301

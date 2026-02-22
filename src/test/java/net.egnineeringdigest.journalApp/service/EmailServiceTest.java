@@ -1,5 +1,6 @@
 package net.egnineeringdigest.journalApp.service;
 
+import net.engineeringdigest.journalApp.JournalApplication;
 import net.engineeringdigest.journalApp.service.EmailService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.mail.MessagingException;
 
-@SpringBootTest
+@SpringBootTest(classes = JournalApplication.class)
 public class EmailServiceTest {
 
     @Autowired
