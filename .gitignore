@@ -31,9 +31,25 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
+### certs ###
+.pem
+.key
+.p12
+.jks
+
 ### VS Code ###
 .vscode/
 start-mongodb-replica.bat
 sonarqube-details.txt
 src/main/resources/application.yaml
 Redis.md
+help/kafka-certs-downloaded/ca.pem
+help/kafka-certs-downloaded/client.keystore.p12
+help/kafka-certs-downloaded/client.truststore.jks
+help/kafka-certs-downloaded/service.cert
+help/kafka-certs-downloaded/service.key
+kafka-certs/client.keystore.p12
+kafka-certs/client.truststore.jks
+src/main/resources/application.yaml
+src/main/resources/application.yaml
+*.yaml

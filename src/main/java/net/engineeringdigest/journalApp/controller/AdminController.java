@@ -3,6 +3,7 @@ package net.engineeringdigest.journalApp.controller;
 import lombok.extern.slf4j.Slf4j;
 import net.engineeringdigest.journalApp.cache.AppCache;
 import net.engineeringdigest.journalApp.entity.User;
+import net.engineeringdigest.journalApp.scheduler.UserScheduler;
 import net.engineeringdigest.journalApp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,9 @@ public class AdminController {
 
     @Autowired
     private AppCache appCache;
+
+    @Autowired
+    private UserScheduler userScheduler;
 
     //Get All User
     @GetMapping("get-all-user")
@@ -50,5 +54,10 @@ public class AdminController {
     @GetMapping("clear-app-cache")
     public void clearCache() {
         appCache.init();
+    }
+
+    @GetMapping("kafka-test-mail")
+    public void testKafkaMail() {
+        userScheduler.fetchUsersAndSendSAMailByKafka();
     }
 }
