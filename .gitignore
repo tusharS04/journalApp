@@ -53,3 +53,4 @@ kafka-certs/client.truststore.jks
 src/main/resources/application.yaml
 src/main/resources/application.yaml
 *.yaml
+src/main/resources/application.yaml
