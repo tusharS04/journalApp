@@ -1,7 +1,7 @@
 package net.engineeringdigest.journalApp.service;
 
 import lombok.extern.slf4j.Slf4j;
-import net.engineeringdigest.journalApp.Constants.PlaceHolders;
+import net.engineeringdigest.journalApp.constants.PlaceHolders;
 import net.engineeringdigest.journalApp.api.reponse.WeatherResponse;
 import net.engineeringdigest.journalApp.cache.AppCache;
 //import org.json.JSONString;

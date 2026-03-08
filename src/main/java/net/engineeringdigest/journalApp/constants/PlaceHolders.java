@@ -1,4 +1,4 @@
-package net.engineeringdigest.journalApp.Constants;
+package net.engineeringdigest.journalApp.constants;
 
 public interface PlaceHolders {
 
