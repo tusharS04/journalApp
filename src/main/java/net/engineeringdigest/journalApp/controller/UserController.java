@@ -1,5 +1,6 @@
 package net.engineeringdigest.journalApp.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import net.engineeringdigest.journalApp.api.reponse.WeatherResponse;
 import net.engineeringdigest.journalApp.entity.User;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/user")
 @Slf4j
+@Tag(name = "User APIs", description = "Read/Delete/Update Users") //for swagger doc
 public class UserController {
 
     @Autowired
@@ -77,13 +79,20 @@ public class UserController {
 
     @GetMapping("/bulk")
     public ResponseEntity<?> greetingByPost() throws Exception {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userName = authentication.getName();
-        String weatherResponse = weatherService.getBulkWeather();
-        String greetings = "";
-        if(weatherResponse != null) {
-            greetings = "Hi " + userName + " ,The post response from weather API looks like this : " + weatherResponse;
+        String weatherResponse = null;
+        try{
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String userName = authentication.getName();
+            weatherResponse = weatherService.getBulkWeather();
+            String greetings = "";
+            if(weatherResponse != null) {
+                greetings = "Hi " + userName + " ,The post response from weather API looks like this : " + weatherResponse;
+            }
+            return new ResponseEntity<>(greetings, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(greetings, HttpStatus.OK);
+
     }
 }

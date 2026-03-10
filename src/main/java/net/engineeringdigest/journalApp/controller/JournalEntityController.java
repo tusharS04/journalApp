@@ -1,5 +1,8 @@
 package net.engineeringdigest.journalApp.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import net.engineeringdigest.journalApp.entity.JournalEntry;
 import net.engineeringdigest.journalApp.entity.User;
@@ -18,6 +21,7 @@ import java.util.*;
 @RestController
 @RequestMapping("/journal")
 @Slf4j
+@Tag(name = "Journal APIs" , description = "Journal Related APIs")
 public class JournalEntityController {
 
     @Autowired
@@ -27,6 +31,7 @@ public class JournalEntityController {
     private UserService userService;
 
     @GetMapping()
+    @Operation(summary = "Get all journal entries of a user") //API description for swagger
     public ResponseEntity<?> getJournalEntriesByUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
@@ -42,6 +47,7 @@ public class JournalEntityController {
     }
 
     @PostMapping()
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<?> createEntry(@RequestBody JournalEntry journalEntry) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
